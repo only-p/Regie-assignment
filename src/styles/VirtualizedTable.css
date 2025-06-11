@@ -1,0 +1,46 @@
+.vt-container {
+  overflow-y: auto;
+  position: relative;
+  border: 1px solid #ccc;
+  font-family: sans-serif;
+}
+
+.vt-inner {
+  position: relative;
+  width: 100%;
+}
+
+.vt-content {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+.vt-header {
+  display: flex;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+.vt-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+}
+
+.vt-cell {
+  flex: 1;
+  padding: 8px;
+  border-right: 1px solid #eee;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vt-header-cell {
+  background-color: #eaeaea;
+  border-right: 1px solid #ccc;
+}
