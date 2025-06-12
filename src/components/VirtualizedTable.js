@@ -1,12 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import "../styles/VirtualizedTable.css";
 import { sortData } from "../utils/sorting";
-import { useMemo } from "react";
+import { getColumnUniqueValues, applyFilters } from "../utils/filters";
 
 const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
   const containerRef = useRef(null);
   const [indices, setIndices] = useState([0, visibleCount]);
   const [sortState, setSortState] = useState({ key: null, order: "asc" });
+  const [filters, setFilters] = useState({});
 
   const totalHeight = data.length * rowHeight;
 
@@ -16,22 +17,45 @@ const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
     const newEndIndex = Math.min(newStartIndex + visibleCount, data.length);
     setIndices([newStartIndex, newEndIndex]);
   };
+
   const handleSort = (key) => {
     setSortState((prev) => {
-      if (prev.key !== key) {
-        return { key, order: "asc" };
-      }
-      // Cycle: asc -> desc -> null
+      if (prev.key !== key) return { key, order: "asc" };
       const nextOrder =
         prev.order === "asc" ? "desc" : prev.order === "desc" ? null : "asc";
-
       return { key, order: nextOrder };
     });
   };
 
-  const sortedData = useMemo(() => {
-    return sortData(data, sortState.key, sortState.order);
-  }, [data, sortState]);
+  const handleFilterChange = (colKey, value) => {
+    setFilters((prev) => {
+      const current = new Set(prev[colKey] || []);
+      if (current.has(value)) current.delete(value);
+      else current.add(value);
+      return { ...prev, [colKey]: Array.from(current) };
+    });
+  };
+
+  const clearAllFilters = () => {
+    setFilters({});
+  };
+
+  const columnOptions = useMemo(
+    () => getColumnUniqueValues(data, columns),
+    [data, columns]
+  );
+
+  const filteredData = useMemo(
+    () => applyFilters(data, filters),
+    [data, filters]
+  );
+
+  const sortedData = useMemo(
+    () => sortData(filteredData, sortState.key, sortState.order),
+    [filteredData, sortState]
+  );
+
+  const visibleData = sortedData.slice(indices[0], indices[1]);
 
   const getSortIndicator = (colKey) => {
     if (sortState.key !== colKey) return "";
@@ -42,11 +66,33 @@ const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
       : "";
   };
 
-  const visibleData = sortedData.slice(indices[0], indices[1]);
-
   return (
     <div className="vt-wrapper">
-      {/* Header container with scrollbar space */}
+      {/* Filter Panel */}
+      <div className="vt-filters">
+        {columns
+          .filter((col) => col.key !== "id")
+          .map((col) => (
+            <div key={col.key} className="vt-filter-group">
+              <div className="vt-filter-label">{col.label}</div>
+              {columnOptions[col.key]?.map((val) => (
+                <label key={val} className="vt-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={filters[col.key]?.includes(val) || false}
+                    onChange={() => handleFilterChange(col.key, val)}
+                  />
+                  {val}
+                </label>
+              ))}
+            </div>
+          ))}
+        <button className="vt-clear-btn" onClick={clearAllFilters}>
+          Clear All Filters
+        </button>
+      </div>
+
+      {/* Header */}
       <div className="vt-header-wrapper">
         <div className="vt-header">
           {columns.map((col) => (
@@ -63,6 +109,7 @@ const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
         </div>
       </div>
 
+      {/* Scrollable Body */}
       <div
         className="vt-container"
         ref={containerRef}
