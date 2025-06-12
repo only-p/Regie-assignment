@@ -45,44 +45,49 @@ const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
   const visibleData = sortedData.slice(indices[0], indices[1]);
 
   return (
-    <div
-      className="vt-container"
-      ref={containerRef}
-      onScroll={handleScroll}
-      style={{ height: rowHeight * visibleCount, overflowY: "auto" }}
-    >
-      <div className="vt-inner" style={{ height: totalHeight }}>
-        <div
-          className="vt-content"
-          style={{ transform: `translateY(${indices[0] * rowHeight}px)` }}
-        >
-          <div className="vt-header">
-            {columns.map((col) => (
+    <div className="vt-wrapper">
+      {/* Header container with scrollbar space */}
+      <div className="vt-header-wrapper">
+        <div className="vt-header">
+          {columns.map((col) => (
+            <div
+              key={col.key}
+              className="vt-cell vt-header-cell"
+              onClick={() => handleSort(col.key)}
+              style={{ cursor: "pointer" }}
+            >
+              <span>{col.label}</span>
+              <span>{getSortIndicator(col.key)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div
+        className="vt-container"
+        ref={containerRef}
+        onScroll={handleScroll}
+        style={{ height: rowHeight * visibleCount, overflowY: "auto" }}
+      >
+        <div className="vt-inner" style={{ height: totalHeight }}>
+          <div
+            className="vt-content"
+            style={{ transform: `translateY(${indices[0] * rowHeight}px)` }}
+          >
+            {visibleData.map((row, i) => (
               <div
-                key={col.key}
-                className="vt-cell vt-header-cell"
-                onClick={() => handleSort(col.key)}
-                style={{ cursor: "pointer" }}
+                className="vt-row"
+                key={indices[0] + i}
+                style={{ height: rowHeight }}
               >
-                <span>{col.label}</span>
-                <span>{getSortIndicator(col.key)}</span>
+                {columns.map((col) => (
+                  <div key={col.key} className="vt-cell">
+                    {row[col.key]}
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-
-          {visibleData.map((row, i) => (
-            <div
-              className="vt-row"
-              key={indices[0] + i}
-              style={{ height: rowHeight }}
-            >
-              {columns.map((col) => (
-                <div key={col.key} className="vt-cell">
-                  {row[col.key]}
-                </div>
-              ))}
-            </div>
-          ))}
         </div>
       </div>
     </div>
