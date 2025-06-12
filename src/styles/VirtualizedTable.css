@@ -1,8 +1,23 @@
+.vt-wrapper {
+  font-family: sans-serif;
+  border: 1px solid #ccc;
+}
+
+.vt-header-wrapper {
+  color: white;
+  overflow-y: scroll;
+}
+
+.vt-header {
+  display: flex;
+  font-weight: bold;
+  background-color: #2e2e2e;
+  border-bottom: 1px solid #444;
+}
+
 .vt-container {
   overflow-y: auto;
   position: relative;
-  border: 1px solid #ccc;
-  font-family: sans-serif;
 }
 
 .vt-inner {
@@ -17,23 +32,15 @@
   top: 0;
 }
 
-.vt-header {
-  display: flex;
-  background-color: #f5f5f5;
-  font-weight: bold;
-  border-bottom: 1px solid #ccc;
-}
-
 .vt-row {
   display: flex;
-  border-bottom: 1px solid #eee;
-  background-color: #fff;
+  border-bottom: 1px solid #444;
 }
 
 .vt-cell {
   flex: 1;
   padding: 8px;
-  border-right: 1px solid #eee;
+  border-right: 1px solid #333;
   box-sizing: border-box;
   white-space: nowrap;
   overflow: hidden;
@@ -41,6 +48,5 @@
 }
 
 .vt-header-cell {
-  background-color: #eaeaea;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #444;
 }
