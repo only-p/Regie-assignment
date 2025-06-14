@@ -13,26 +13,24 @@ A high-performance, customizable virtualized table component for React with buil
 - **Customizable** - Control styling, row height, and visible rows
 - **Responsive** - Adapts to container size
 
-````markdown
-# Project Name
-
-📝 A brief description of your project.
-
-## � Quick Start
+```markdown
+## Quick Start
 
 To get the project running locally:
 
-```bash
 # Clone the repo
+
 git clone https://github.com/only-p/Regie-assignment.git
 
 # Go into the project folder
+
 cd Regie-assignment
 
 # Install dependencies
+
 npm install
 
 # Run the app (check package.json for the correct script)
+
 npm start
 ```
-````
