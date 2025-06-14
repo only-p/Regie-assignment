@@ -15,8 +15,6 @@ const VirtualizedTable = ({
   const [sortState, setSortState] = useState({ key: null, order: "asc" });
   const [filters, setFilters] = useState({});
 
-  const totalHeight = data.length * rowHeight;
-
   const handleScroll = (e) => {
     const { scrollTop } = e.target;
     const newStartIndex = Math.floor(scrollTop / rowHeight);
@@ -82,6 +80,7 @@ const VirtualizedTable = ({
     }
   };
   const visibleData = sortedData.slice(indices[0], indices[1]);
+  const totalHeight = sortedData.length * rowHeight;
 
   return (
     <div className="vt-wrapper">
