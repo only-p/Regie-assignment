@@ -1,14 +1,47 @@
-export const generateData = (count = 2000) => {
-  return Array.from({ length: count }, (_, i) => ({
-    id: i + 1,
-    name: ["Alice", "Bob", "Charlie", "Diana"][i % 4],
-    age: 20 + (i % 5),
-    city: ["Delhi", "Mumbai", "Chennai", "Kolkata"][i % 4],
-  }));
-};
 export const columns = [
-  { key: "id", label: "ID" },
-  { key: "name", label: "Name" },
-  { key: "age", label: "Age" },
-  { key: "city", label: "City" },
+  {
+    key: "id",
+    label: "ID",
+  },
+  {
+    key: "firstName",
+    label: "First Name",
+    options: ["Alice", "Bob", "Charlie", "Diana", "Eva", "Frank"],
+  },
+  {
+    key: "lastName",
+    label: "Last Name",
+    options: ["Smith", "Johnson", "Williams", "Brown", "Davis"],
+  },
+  {
+    key: "age",
+    label: "Age",
+    options: [20, 21, 22, 23, 24, 25, 30, 35, 40],
+  },
+  {
+    key: "city",
+    label: "City",
+    options: [
+      "Delhi",
+      "Mumbai",
+      "Chennai",
+      "Kolkata",
+      "Bangalore",
+      "Hyderabad",
+    ],
+  },
 ];
+
+export const generateData = (count = 2000) => {
+  return Array.from({ length: count }, (_, i) => {
+    const row = { id: i + 1 };
+    columns.forEach((col) => {
+      if (col.key === "id") return;
+      if (col.options) {
+        row[col.key] =
+          col.options[Math.floor(Math.random() * col.options.length)];
+      }
+    });
+    return row;
+  });
+};
