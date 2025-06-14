@@ -1,6 +1,55 @@
 .vt-wrapper {
   font-family: sans-serif;
-  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  margin: 8px;
+  border: 1px solid black;
+}
+.vt-title {
+  font-size: 24px;
+  text-decoration: bold;
+  margin: 8px;
+}
+.vt-filters {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.vt-filter-group {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.vt-filter-label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.vt-checkbox {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.vt-clear-btn {
+  align-self: start;
+  padding: 6px 12px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  border-radius: 4px;
+}
+
+.vt-clear-btn:hover {
+  background-color: #c9302c;
 }
 
 .vt-header-wrapper {
