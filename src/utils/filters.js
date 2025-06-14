@@ -1,14 +1,12 @@
-
 export const getColumnUniqueValues = (data, columns) => {
   const uniqueValues = {};
   columns.forEach((col) => {
-    if (col.key === "id") return; 
+    if (col.key === "id") return;
     uniqueValues[col.key] = [...new Set(data.map((row) => row[col.key]))];
   });
   return uniqueValues;
 };
 
-// Apply filters on data
 export const applyFilters = (data, filters) => {
   return data.filter((row) => {
     return Object.entries(filters).every(([colKey, selectedValues]) => {

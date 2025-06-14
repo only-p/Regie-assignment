@@ -6,3 +6,9 @@ export const generateData = (count = 2000) => {
     city: ["Delhi", "Mumbai", "Chennai", "Kolkata"][i % 4],
   }));
 };
+export const columns = [
+  { key: "id", label: "ID" },
+  { key: "name", label: "Name" },
+  { key: "age", label: "Age" },
+  { key: "city", label: "City" },
+];

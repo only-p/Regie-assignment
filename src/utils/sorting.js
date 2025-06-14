@@ -12,13 +12,10 @@ export const stableSort = (array, compareFn) => {
 
 export const sortData = (data, key, order = null) => {
   if (!order) return data;
-
   return stableSort(data, (a, b) => {
     const valA = a[key];
     const valB = b[key];
-
     const isNumber = !isNaN(valA) && !isNaN(valB);
-
     if (isNumber) {
       return order === "asc" ? valA - valB : valB - valA;
     }
