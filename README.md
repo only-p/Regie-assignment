@@ -1,6 +1,6 @@
 # React Virtualized Table Component
 
-![Demo](https://codesandbox.io/p/github/only-p/Regie-assignment/main)
+[View Project](https://codesandbox.io/p/github/only-p/Regie-assignment/main)
 
 A high-performance, customizable virtualized table component for React with built-in sorting and filtering capabilities.
 
@@ -13,9 +13,26 @@ A high-performance, customizable virtualized table component for React with buil
 - **Customizable** - Control styling, row height, and visible rows
 - **Responsive** - Adapts to container size
 
-## Installation
+````markdown
+# Project Name
+
+📝 A brief description of your project.
+
+## � Quick Start
+
+To get the project running locally:
 
 ```bash
+# Clone the repo
+git clone https://github.com/only-p/Regie-assignment.git
+
+# Go into the project folder
+cd Regie-assignment
+
+# Install dependencies
 npm install
+
+# Run the app (check package.json for the correct script)
 npm start
 ```
+````
