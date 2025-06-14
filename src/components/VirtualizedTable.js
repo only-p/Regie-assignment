@@ -3,7 +3,13 @@ import "../styles/VirtualizedTable.css";
 import { sortData } from "../utils/sorting";
 import { getColumnUniqueValues, applyFilters } from "../utils/filters";
 
-const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
+const VirtualizedTable = ({
+  data,
+  columns,
+  rowHeight,
+  visibleCount,
+  title = "Table",
+}) => {
   const containerRef = useRef(null);
   const [indices, setIndices] = useState([0, visibleCount]);
   const [sortState, setSortState] = useState({ key: null, order: "asc" });
@@ -20,10 +26,17 @@ const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
 
   const handleSort = (key) => {
     setSortState((prev) => {
-      if (prev.key !== key) return { key, order: "asc" };
-      const nextOrder =
-        prev.order === "asc" ? "desc" : prev.order === "desc" ? null : "asc";
-      return { key, order: nextOrder };
+      if (prev.key !== key) {
+        return { key, order: "asc" };
+      }
+      switch (prev.order) {
+        case "asc":
+          return { key, order: "desc" };
+        case "desc":
+          return { key, order: null };
+        default:
+          return { key, order: "asc" };
+      }
     });
   };
 
@@ -55,21 +68,26 @@ const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
     [filteredData, sortState]
   );
 
-  const visibleData = sortedData.slice(indices[0], indices[1]);
-
   const getSortIndicator = (colKey) => {
-    if (sortState.key !== colKey) return "";
-    return sortState.order === "asc"
-      ? " ▲"
-      : sortState.order === "desc"
-      ? " ▼"
-      : "";
+    if (sortState.key !== colKey) {
+      return "";
+    }
+    switch (sortState.order) {
+      case "asc":
+        return " ▲";
+      case "desc":
+        return " ▼";
+      default:
+        return "";
+    }
   };
+  const visibleData = sortedData.slice(indices[0], indices[1]);
 
   return (
     <div className="vt-wrapper">
-      {/* Filter Panel */}
+      <div className="vt-title">{title}</div>
       <div className="vt-filters">
+        <div>Filters</div>
         {columns
           .filter((col) => col.key !== "id")
           .map((col) => (
@@ -92,7 +110,6 @@ const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
         </button>
       </div>
 
-      {/* Header */}
       <div className="vt-header-wrapper">
         <div className="vt-header">
           {columns.map((col) => (
@@ -109,7 +126,6 @@ const VirtualizedTable = ({ data, columns, rowHeight, visibleCount }) => {
         </div>
       </div>
 
-      {/* Scrollable Body */}
       <div
         className="vt-container"
         ref={containerRef}
